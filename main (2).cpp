@@ -16,17 +16,17 @@ const bool OnlineGameMode = false;
 
 const char ac = 1;
 
-//клетка с координатами и бул. живая\не живая
+//РєР»РµС‚РєР° СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё Рё Р±СѓР». Р¶РёРІР°СЏ\РЅРµ Р¶РёРІР°СЏ
 class Cell {
 public:
 	int x, y;
 	bool isAlive;
-	Cell(int _x, int _y, bool _isAlive = true) { x = _x, y = _y, isAlive = _isAlive; }		//конструктор
-	~Cell() = default;																		//деструктор
+	Cell(int _x, int _y, bool _isAlive = true) { x = _x, y = _y, isAlive = _isAlive; }		//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	~Cell() = default;																		//РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 };
 
 
-//ошибки и прочие сообщения на экране
+//РѕС€РёР±РєРё Рё РїСЂРѕС‡РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ РЅР° СЌРєСЂР°РЅРµ
 class Messages
 {
 public:
@@ -34,7 +34,7 @@ public:
 	{
 		std::cout << "Warning!\n" + message + '\n';
 	}
-	//вводное сообщение с правилами
+	//РІРІРѕРґРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ СЃ РїСЂР°РІРёР»Р°РјРё
 	void showReference()
 	{
 		std::cout << 
@@ -54,19 +54,19 @@ public:
 			\n\
 			____________________________________________________________________\n\
 			\n\
-			Простая реализация игры 'Жизнь'\n\
+			РџСЂРѕСЃС‚Р°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ РёРіСЂС‹ 'Р–РёР·РЅСЊ'\n\
 			\n\
-			Формат вводного файла:\n\
-			1. #N версия\n\
-			2. #S высота, ширина поля\n\
-			3. #R #Bx #Sy Правила рождения и выживания, х и у - числа от 0 до 9\n\
-			4. Координаты начальных клеток в диапазоне ширины и высоты поля\n\
+			Р¤РѕСЂРјР°С‚ РІРІРѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°:\n\
+			1. #N РІРµСЂСЃРёСЏ\n\
+			2. #S РІС‹СЃРѕС‚Р°, С€РёСЂРёРЅР° РїРѕР»СЏ\n\
+			3. #R #Bx #Sy РџСЂР°РІРёР»Р° СЂРѕР¶РґРµРЅРёСЏ Рё РІС‹Р¶РёРІР°РЅРёСЏ, С… Рё Сѓ - С‡РёСЃР»Р° РѕС‚ 0 РґРѕ 9\n\
+			4. РљРѕРѕСЂРґРёРЅР°С‚С‹ РЅР°С‡Р°Р»СЊРЅС‹С… РєР»РµС‚РѕРє РІ РґРёР°РїР°Р·РѕРЅРµ С€РёСЂРёРЅС‹ Рё РІС‹СЃРѕС‚С‹ РїРѕР»СЏ\n\
 			\n\
-			Доступные команды:\n\
-			1. help - показывает вводный текст\n\
-			2. dump<filename> - сохраняет данный мир в файл\n\
-			3. exit - конец игры\n\
-			4. tick<n> - показать исход игры за n итераций\n\
+			Р”РѕСЃС‚СѓРїРЅС‹Рµ РєРѕРјР°РЅРґС‹:\n\
+			1. help - РїРѕРєР°Р·С‹РІР°РµС‚ РІРІРѕРґРЅС‹Р№ С‚РµРєСЃС‚\n\
+			2. dump<filename> - СЃРѕС…СЂР°РЅСЏРµС‚ РґР°РЅРЅС‹Р№ РјРёСЂ РІ С„Р°Р№Р»\n\
+			3. exit - РєРѕРЅРµС† РёРіСЂС‹\n\
+			4. tick<n> - РїРѕРєР°Р·Р°С‚СЊ РёСЃС…РѕРґ РёРіСЂС‹ Р·Р° n РёС‚РµСЂР°С†РёР№\n\
 			\n\
 			";
 	}
@@ -87,7 +87,7 @@ public:
 	}
 };
 
-//класс состояния игры
+//РєР»Р°СЃСЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ РёРіСЂС‹
 class GameState {
 public:
 
@@ -101,11 +101,11 @@ public:
 	std::vector <Cell> cellsCoordinates;
 };
 
-//класс для выбора файла
+//РєР»Р°СЃСЃ РґР»СЏ РІС‹Р±РѕСЂР° С„Р°Р№Р»Р°
 class GameLoader : public GameState
 {
 public:
-	//если файл не подан
+	//РµСЃР»Рё С„Р°Р№Р» РЅРµ РїРѕРґР°РЅ
 	GameLoader()
 	{
 		Messages msg;
@@ -113,7 +113,7 @@ public:
 		loadDefaultUniverse();
 	}
 
-	//если файл подан не верно
+	//РµСЃР»Рё С„Р°Р№Р» РїРѕРґР°РЅ РЅРµ РІРµСЂРЅРѕ
 	GameLoader(std::wstring fileName)
 	{
 		Messages msg;
@@ -124,7 +124,7 @@ public:
 	}
 
 private:
-	//если по какой-то причине файл не выберется автоматически
+	//РµСЃР»Рё РїРѕ РєР°РєРѕР№-С‚Рѕ РїСЂРёС‡РёРЅРµ С„Р°Р№Р» РЅРµ РІС‹Р±РµСЂРµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
 	void setDefaultSettings()
 	{
 		this->birthRules = "2";
@@ -134,7 +134,7 @@ private:
 	}
 
 
-	//выбирает случайную вселенную из стандартных
+	//РІС‹Р±РёСЂР°РµС‚ СЃР»СѓС‡Р°Р№РЅСѓСЋ РІСЃРµР»РµРЅРЅСѓСЋ РёР· СЃС‚Р°РЅРґР°СЂС‚РЅС‹С…
 	void loadDefaultUniverse()
 	{
 		WIN32_FIND_DATAW wfd;
@@ -161,7 +161,7 @@ private:
 		this->parseInputFile(L"C:\\Users\\slava\\source\\repos\\Game_of_Life\\Default_universes\\" + allUniverses[currentUniverse]);
 	}
 
-	//понимает, что написано в правилах
+	//РїРѕРЅРёРјР°РµС‚, С‡С‚Рѕ РЅР°РїРёСЃР°РЅРѕ РІ РїСЂР°РІРёР»Р°С…
 	int parseInputFile(std::wstring inputFile)
 	{
 		//In case there's no input file set a default settings
@@ -181,10 +181,10 @@ private:
 		std::regex letters("[A-Za-z ]+");
 		std::smatch s;
 
-		//буфер
+		//Р±СѓС„РµСЂ
 		char temp[256];
 
-		//имя вселенной
+		//РёРјСЏ РІСЃРµР»РµРЅРЅРѕР№
 		fin.getline(temp, 256);
 		if (std::regex_search(temp, universeNameRegex))
 		{
@@ -192,7 +192,7 @@ private:
 			this->universeName.erase(this->universeName.find("#N "), 3);
 		}
 
-		//правила вселенной
+		//РїСЂР°РІРёР»Р° РІСЃРµР»РµРЅРЅРѕР№
 		fin.getline(temp, 256);
 		if (std::regex_search(temp, rulesRegex))
 		{
@@ -202,7 +202,7 @@ private:
 			this->survivalRules = (*(++iter)).str();
 		}
 
-		//размеры поля вселенной
+		//СЂР°Р·РјРµСЂС‹ РїРѕР»СЏ РІСЃРµР»РµРЅРЅРѕР№
 		fin.getline(temp, 256);
 		if (std::regex_search(temp, sizeRegex))
 		{
@@ -212,7 +212,7 @@ private:
 			this->heigthOfField = std::stol((*(++iter)).str());
 		}
 
-		//координаты клеток
+		//РєРѕРѕСЂРґРёРЅР°С‚С‹ РєР»РµС‚РѕРє
 		int x, y;
 		while (!fin.eof()) 
 		{
@@ -227,7 +227,7 @@ private:
 };
 
 
-//рисует поле
+//СЂРёСЃСѓРµС‚ РїРѕР»Рµ
 class GameField
 {
 public:
@@ -235,7 +235,7 @@ public:
 	{
 		this->currentGameState = &gs;
 		std::vector<bool> temp;
-		//сначала заполняем ноликами
+		//СЃРЅР°С‡Р°Р»Р° Р·Р°РїРѕР»РЅСЏРµРј РЅРѕР»РёРєР°РјРё
 		_field.reserve(currentGameState->heigthOfField);
 		for (size_t y = 0; y < currentGameState->heigthOfField; y++)
 		{
@@ -247,15 +247,15 @@ public:
 			_field.push_back(temp);
 		}
 
-		//оживляем клетки
+		//РѕР¶РёРІР»СЏРµРј РєР»РµС‚РєРё
 		for (const Cell& cell : currentGameState->cellsCoordinates)
 		{
 			if (cell.isAlive) this->_field[cell.x][cell.y] = AliveCell;
 		}
 	}
 
-	~GameField() = default;		//деструктор
-	//пересчитываем координаты, если они вышли за пределы поля
+	~GameField() = default;		//РґРµСЃС‚СЂСѓРєС‚РѕСЂ
+	//РїРµСЂРµСЃС‡РёС‚С‹РІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹, РµСЃР»Рё РѕРЅРё РІС‹С€Р»Рё Р·Р° РїСЂРµРґРµР»С‹ РїРѕР»СЏ
 	int mapXCoordinate(int x)
 	{
 		if (x >= currentGameState->wigthOfField) return x % currentGameState->wigthOfField;
@@ -269,7 +269,7 @@ public:
 		if (y < 0) return currentGameState->heigthOfField - 1;
 		return y;
 	}
-	//обновляем поля, считаем соседей, что-то рождается, что-то умирает
+	//РѕР±РЅРѕРІР»СЏРµРј РїРѕР»СЏ, СЃС‡РёС‚Р°РµРј СЃРѕСЃРµРґРµР№, С‡С‚Рѕ-С‚Рѕ СЂРѕР¶РґР°РµС‚СЃСЏ, С‡С‚Рѕ-С‚Рѕ СѓРјРёСЂР°РµС‚
 	void updateField()
 	{
 		std::vector<Cell> cells;
@@ -295,7 +295,7 @@ public:
 				if (!shouldSurvive(neighbours) && isAlive) cells.push_back(Cell(x, y, false));
 			}
 		}
-		//оживляет\убивает
+		//РѕР¶РёРІР»СЏРµС‚\СѓР±РёРІР°РµС‚
 		for (auto& cell : cells)
 		{
 			if (cell.isAlive) this->_field[cell.x][cell.y] = AliveCell;
@@ -303,7 +303,7 @@ public:
 		}
 	}
 
-	//выводит правила и поле
+	//РІС‹РІРѕРґРёС‚ РїСЂР°РІРёР»Р° Рё РїРѕР»Рµ
 	void showField(int numOfIteration = 1)
 	{
 		
@@ -328,7 +328,7 @@ public:
 		}
 	}
 
-	//сохраняет вселенную в файл
+	//СЃРѕС…СЂР°РЅСЏРµС‚ РІСЃРµР»РµРЅРЅСѓСЋ РІ С„Р°Р№Р»
 	void dumpField(std::wstring outputFile)
 	{
 		std::ofstream fout(outputFile);
@@ -347,14 +347,14 @@ private:
 	GameState* currentGameState;
 	std::vector<std::vector<bool>> _field;
 
-	//условия выживания по подсчитанным соседям
+	//СѓСЃР»РѕРІРёСЏ РІС‹Р¶РёРІР°РЅРёСЏ РїРѕ РїРѕРґСЃС‡РёС‚Р°РЅРЅС‹Рј СЃРѕСЃРµРґСЏРј
 	bool shouldSurvive(int neighbours)
 	{
 		size_t found = currentGameState->survivalRules.find(std::to_string(neighbours));
 		if (found == std::string::npos) return false;
 		else return true;
 	}
-	//условия рождения по подсчитанным соседям
+	//СѓСЃР»РѕРІРёСЏ СЂРѕР¶РґРµРЅРёСЏ РїРѕ РїРѕРґСЃС‡РёС‚Р°РЅРЅС‹Рј СЃРѕСЃРµРґСЏРј
 	bool shouldBeBorn(int neighbours)
 	{
 		size_t found = currentGameState->birthRules.find(std::to_string(neighbours));
@@ -363,7 +363,7 @@ private:
 	}
 };
 
-//класс команд
+//РєР»Р°СЃСЃ РєРѕРјР°РЅРґ
 class CommandState {
 public:
 	CommandState(GameState& gs) { currentGameState = &gs; }
@@ -398,20 +398,20 @@ private:
 
 int main(int argc, char** argv)
 {
-	setlocale(LC_ALL, "Russian");			//для руского текста
-	int commandArg = 0, iterations = -1, gameMode = OnlineGameMode;	//команда, кол-во итераций, онлайн\оффлайн
-	std::wstring inputFile, outputFile;		//входной и выходной файл
-	//если входящего файла нет, то 0 
+	setlocale(LC_ALL, "Russian");			//РґР»СЏ СЂСѓСЃРєРѕРіРѕ С‚РµРєСЃС‚Р°
+	int commandArg = 0, iterations = -1, gameMode = OnlineGameMode;	//РєРѕРјР°РЅРґР°, РєРѕР»-РІРѕ РёС‚РµСЂР°С†РёР№, РѕРЅР»Р°Р№РЅ\РѕС„С„Р»Р°Р№РЅ
+	std::wstring inputFile, outputFile;		//РІС…РѕРґРЅРѕР№ Рё РІС‹С…РѕРґРЅРѕР№ С„Р°Р№Р»
+	//РµСЃР»Рё РІС…РѕРґСЏС‰РµРіРѕ С„Р°Р№Р»Р° РЅРµС‚, С‚Рѕ 0 
 	std::string _temp;
 	if (argc == 1) _temp = "";
 	else _temp = argv[1];
 	inputFile = std::wstring(_temp.begin(), _temp.end());
 
-	//для оффлайн режима
+	//РґР»СЏ РѕС„С„Р»Р°Р№РЅ СЂРµР¶РёРјР°
 	if (argc > 1)
 	{
 		gameMode = OfflineGameMode;
-		//аргументы: количество итераций и файл вывода
+		//Р°СЂРіСѓРјРµРЅС‚С‹: РєРѕР»РёС‡РµСЃС‚РІРѕ РёС‚РµСЂР°С†РёР№ Рё С„Р°Р№Р» РІС‹РІРѕРґР°
 		for (int i = 1; i < argc; i++)
 		{
 			if (argv[i] == std::string("-i"))
@@ -433,7 +433,7 @@ int main(int argc, char** argv)
 	CommandState command(*gs);
 	std::wstring commandString;
 
-	//для оффлайна
+	//РґР»СЏ РѕС„С„Р»Р°Р№РЅР°
 	if (gameMode == OfflineGameMode)
 	{
 		game.showField(iterations);
@@ -443,12 +443,12 @@ int main(int argc, char** argv)
 	}
 
 	msg.showReference();
-	//стартовый вывод (онлайн)
+	//СЃС‚Р°СЂС‚РѕРІС‹Р№ РІС‹РІРѕРґ (РѕРЅР»Р°Р№РЅ)
 	std::cout << std::endl << "Enter tick <number of iteration> to start the game!" << std::endl;
-	std::cout << "Введите tick <количество итераций> чтобы начать игру!" << std::endl;
+	std::cout << "Р’РІРµРґРёС‚Рµ tick <РєРѕР»РёС‡РµСЃС‚РІРѕ РёС‚РµСЂР°С†РёР№> С‡С‚РѕР±С‹ РЅР°С‡Р°С‚СЊ РёРіСЂСѓ!" << std::endl;
 
 
-	//онлайн
+	//РѕРЅР»Р°Р№РЅ
 	while (1)
 	{
 		commandArg = command.readCommand();
